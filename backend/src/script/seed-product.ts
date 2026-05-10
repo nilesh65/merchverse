@@ -3,8 +3,8 @@ import { connectDatabase } from "../config/database.config";
 import Product, { ProductType, Section, SIZE_OPTIONS } from "../models/products.model";
 
 
-const TSHIRT_TRANSPARENT_IMAGE_URL = "https://res.cloudinary.com/dp9vvlndo/image/upload/v1773687866/t-shirt-transparent-front_ulejct.png"
-const HOODIE_TRANSPARENT_IMAGE_URL = "https://res.cloudinary.com/dp9vvlndo/image/upload/v1773687868/hoodies-transparent-front_u5bfn3.png"
+const TSHIRT_TRANSPARENT_IMAGE_URL = "https://res.cloudinary.com/dncizqyqq/image/upload/v1778326352/t-shirt-transparent-front_ky2akg.png"
+const HOODIE_TRANSPARENT_IMAGE_URL = "https://res.cloudinary.com/dncizqyqq/image/upload/v1778326417/hoodies-transparent-front_flv8id.png"
 const TSHIRT_PRINTABLE_AREA = {
   top: 177,
   left: 216,
@@ -30,7 +30,7 @@ const products = [
     basePrice: 22.99,
     sizes: SIZE_OPTIONS,
     baseUrl: TSHIRT_TRANSPARENT_IMAGE_URL,
-    displayUrl: "https://res.cloudinary.com/dp9vvlndo/image/upload/v1773689131/featured_product_2_1746137518653_uor1ax.png",
+    displayUrl: "https://res.cloudinary.com/dncizqyqq/image/upload/v1778327263/featured_product_2_1778325939157_upkxty.png",
     printableArea: TSHIRT_PRINTABLE_AREA,
   },
   {
@@ -42,7 +42,7 @@ const products = [
     basePrice: 39.99,
     sizes: SIZE_OPTIONS,
     baseUrl: HOODIE_TRANSPARENT_IMAGE_URL,
-    displayUrl: "https://res.cloudinary.com/dp9vvlndo/image/upload/v1773689131/featured_product_4_1746137644730_ctynsg.png",
+    displayUrl: "https://res.cloudinary.com/dncizqyqq/image/upload/v1778327367/featured_product_4_1778325939157_izfqxi.png",
     printableArea: HOODIE_PRINTABLE_AREA,
   },
 
@@ -53,7 +53,7 @@ const products = [
     section: Section.CATALOG,
     name: "Women's Classic T-Shirt",
     body: "Classic, 100% Airlum Combed and Ring-Spun Cotton",
-    displayUrl: "https://res.cloudinary.com/dp9vvlndo/image/upload/v1773689131/featured_product_3_1746137611266_jctugl.png",
+    displayUrl: "https://res.cloudinary.com/dncizqyqq/image/upload/v1778327582/featured_product_3_1778325939157_rpclp2.png",
   },
   {
     type: ProductType.TSHIRT,
@@ -61,7 +61,7 @@ const products = [
     section: Section.FEATURED,
     name: "Relaxed Fit Basic T-Shirt",
     body: "100% Combed Ring-Spun Cotton, lightweight",
-    displayUrl: "https://res.cloudinary.com/dp9vvlndo/image/upload/v1773689759/model-03642-preview_compressed_wz5n8y.webp",
+    displayUrl: "https://res.cloudinary.com/dncizqyqq/image/upload/v1778327556/model-03642-preview_compressed_ig8c7m.webp",
   },
   {
     type: ProductType.TSHIRT,
@@ -69,7 +69,7 @@ const products = [
     section: Section.FEATURED,
     name: "Relaxed Fit T-Shirt",
     body: "100% Combed Ring-Spun Cotton, Breathable",
-    displayUrl: "https://res.cloudinary.com/dp9vvlndo/image/upload/v1773689759/model-03661-preview_compressed_p6m3s6.webp",
+    displayUrl: "https://res.cloudinary.com/dncizqyqq/image/upload/v1778327556/model-03661-preview_compressed_c2ibww.webp",
   },
   {
     type: ProductType.HOODIE,
@@ -77,7 +77,7 @@ const products = [
     section: Section.FEATURED,
     name: "Soft Fleece Hoodie",
     body: "80% Cotton, 20% Polyester, fleece lined",
-    displayUrl: "https://res.cloudinary.com/dp9vvlndo/image/upload/v1773689760/hoodie-1868-preview_nmxlky.webp",
+    displayUrl: "https://res.cloudinary.com/dncizqyqq/image/upload/v1778327555/hoodie-1868-preview_p6xkud.webp",
   },
   {
     type: ProductType.HOODIE,
@@ -85,7 +85,7 @@ const products = [
     section: Section.FEATURED,
     name: "Classic Pullover Hoodie",
     body: "80% Cotton, 20% Polyester, kangaroo pocket",
-    displayUrl: "https://res.cloudinary.com/dp9vvlndo/image/upload/v1773689759/hoodie-1866-preview_gwckg3.webp",
+    displayUrl: "https://res.cloudinary.com/dncizqyqq/image/upload/v1778327554/hoodie-1866-preview_wzvmyg.webp",
   },
 ];
 

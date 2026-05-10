@@ -22,3 +22,4 @@ export const Env = {
 
   FRONTEND_ORIGIN: getEnv("FRONTEND_ORIGIN", "http://localhost:5173"),
 }
+console.log(`NODE_ENV value ${Env.NODE_ENV}`)

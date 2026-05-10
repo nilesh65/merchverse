@@ -6,7 +6,12 @@ import Product from "../models/products.model";
 import { BadRequestException, InternalServerException, NotFoundException } from "../utils/app-error";
 import { CreateListingType } from "../validators/listing.validator";
 import { SYSTEM_PROMPT } from "../utils/prompt";
+import { OpenAI } from "openai";
 
+const client = new OpenAI({
+  baseURL: "https://router.huggingface.co/v1",
+  apiKey: process.env.HF_TOKEN,
+});
 const toSlug = (str: string) => str.toLowerCase().replace(/\s+/g, "-");
 
 export const createListingService = async (userId: string, data: CreateListingType) => {
@@ -151,55 +156,70 @@ export const getMockupUrlService = async (slug: string, colorName: string) => {
 
 }
 
+
 export const generateArtworkService = async (prompt: string) => {
   try {
-    const { text } = await generateText({
-      model: "anthropic/claude-opus-4.5",
-      system: SYSTEM_PROMPT,
-      prompt: prompt
-    })
+    // 1. Enhance prompt using DeepSeek (HF Router)
+    const res = await client.chat.completions.create({
+      model: "deepseek-ai/DeepSeek-V4-Pro:novita",
+      messages: [
+        {
+          role: "system",
+          content:
+            SYSTEM_PROMPT
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ]
+    });
 
-    const result = await generateImage({
-      model: "recraft/recraft-v4",
-      prompt: text.trim(),
-      size: "1024x1024",
-    })
+    const improvedPrompt = res.choices[0].message.content?.trim() || prompt;
 
-    const image = result.images[0];
-    if (!image) throw new NotFoundException("No image generated");
+    console.log("IMPROVED PROMPT:", improvedPrompt);
 
-    const uploadImg = await cloudinary.uploader.upload(
-      `data:image/png;base64,${image.base64}`, {
+    // 2. Generate image
+    const imageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(improvedPrompt)}`;
+
+    // 3. Upload to Cloudinary
+    const uploadImg = await cloudinary.uploader.upload(imageUrl, {
       folder: "merchverse/artworks",
       resource_type: "image"
-    })
+    });
 
+    // 4. Remove background
     const formData = new FormData();
     formData.append("image_url", uploadImg.secure_url);
     formData.append("size", "auto");
 
     const bgRes = await fetch("https://api.remove.bg/v1.0/removebg", {
       method: "POST",
-      headers: { "X-Api-Key": Env.REMOVE_BG_API_KEY! },
-      body: formData,
+      headers: {
+        "X-Api-Key": Env.REMOVE_BG_API_KEY!
+      },
+      body: formData
     });
 
     if (!bgRes.ok) {
-      throw new InternalServerException("Background removal failed")
+      throw new InternalServerException("Background removal failed");
     }
 
-    const bgBuffer = Buffer.from(await bgRes.arrayBuffer())
+    const bgBuffer = Buffer.from(await bgRes.arrayBuffer());
 
+    // 5. Final upload
     const finalUpload = await cloudinary.uploader.upload(
-      `data:image/png;base64,${bgBuffer.toString("base64")}`, {
-      folder: "merchverse/artworks",
-      resource_type: "image"
-    }
-    )
+      `data:image/png;base64,${bgBuffer.toString("base64")}`,
+      {
+        folder: "merchverse/artworks",
+        resource_type: "image"
+      }
+    );
 
-    return { artworkUrl: finalUpload.secure_url }
+    return { artworkUrl: finalUpload.secure_url };
 
   } catch (error) {
-    throw new InternalServerException("Failed to generate artwork")
+    console.log("ERROR:", error);
+    throw new InternalServerException("Failed to generate artwork");
   }
-}
+};
